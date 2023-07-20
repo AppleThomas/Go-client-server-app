@@ -10,6 +10,6 @@ COPY *.go ./
 
 RUN go build -o /go-client-server
 
-EXPOSE 8080
+EXPOSE 3000
 
 CMD ["/go-client-server"]
