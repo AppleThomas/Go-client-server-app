@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: go-client-server
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: go-client-server
+  template:
+    metadata:
+      labels:
+        app: go-client-server
+    spec:
+      containers:
+      - name: hello-world
+        image: go-client-server

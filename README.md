@@ -2,5 +2,5 @@
 
 ## Docker Build
 ```shell
-docker build --tag go-client-server .
+./bash_scripts/docker-build-run.sh
 ```
