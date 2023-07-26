@@ -2,32 +2,32 @@ package main
 
 import (
 	"net/http"
-	"os"
 
-	"github.com/labstack/echo/v4"
-	"github.com/labstack/echo/v4/middleware"
+	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/template/html/v2"
 )
 
 func main() {
-	e := echo.New()
 
-	// middleware
-	e.Use(middleware.Logger())
-	e.Use(middleware.Recover())
+	engine := html.New("./views", ".html")
 
-	e.GET("/", func(c echo.Context) error {
-		return c.HTML(http.StatusOK, "Hello, World!\n")
+	app := fiber.New(fiber.Config{
+		Views:       engine,
+		ViewsLayout: "layouts/main", // add this to config
 	})
 
-	e.GET("/health", func(c echo.Context) error {
-		return c.JSON(http.StatusOK, struct{ Status string }{Status: "OK"})
+	setupRoutes(app)
+
+	app.Listen(":3000")
+
+}
+
+func setupRoutes(app *fiber.App) {
+	app.Get("/", func(c *fiber.Ctx) error {
+		return c.SendString("stan Weeekly for clear skin!")
 	})
 
-	httpPort := os.Getenv("PORT")
-
-	if httpPort == "" {
-		httpPort = "3000"
-	}
-
-	e.Logger.Fatal(e.Start(":" + httpPort))
+	app.Get("/health", func(c *fiber.Ctx) error {
+		return c.JSON(http.StatusOK)
+	})
 }

@@ -17,6 +17,5 @@ spec:
       containers:
       - name: go-client-server
         image: thomas3212/go-client-server
-        imagePullPolicy: Never
         ports:
         - containerPort: 3000

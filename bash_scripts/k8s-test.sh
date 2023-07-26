@@ -7,3 +7,5 @@ sleep 10
 curl -v localhost:45287
 
 echo -e "\ndone"
+
+# pkill -f "port-forward"
