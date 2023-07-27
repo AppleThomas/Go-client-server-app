@@ -60,4 +60,9 @@ func setupRoutes(app *fiber.App) {
 	app.Post("/album", handlers.AddAlbum)
 
 	app.Get("/album/:id", handlers.ShowAlbum)
+
+	app.Get("/album/:id/edit", handlers.EditAlbum)
+	app.Patch("/album/:id", handlers.UpdateAlbum)
+
+	// app.Delete("/album/:id", handlers.DeleteAlbum)
 }

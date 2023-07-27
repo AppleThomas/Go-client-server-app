@@ -72,22 +72,9 @@ func NewAlbumView(c *fiber.Ctx) error {
 }
 
 func ShowAlbum(c *fiber.Ctx) error {
-	// album := models.Album{}
 	id := c.Params("id")
-	// id_url := c.OriginalURL()
-	// fmt.Println("first")
-	// fmt.Println(id_url)
-	// id := id_url[len(id_url)-24:]
-	// fmt.Println(id)
 
 	objectId, err := primitive.ObjectIDFromHex(id)
-
-	// fmt.Println(objectId)
-	// fmt.Println(c.OriginalURL())
-
-	// if err != nil {
-	// 	panic(err)
-	// }
 
 	client := database.DB.Db
 	var album models.Album
@@ -102,6 +89,7 @@ func ShowAlbum(c *fiber.Ctx) error {
 	multi := strings.Split(songs, ",")
 	// fmt.Println(reflect.TypeOf(multi))
 	album.SongsMulti = multi
+	album.ID = id
 
 	return c.Render("show", fiber.Map{
 		"Title": album.Name,
@@ -112,4 +100,73 @@ func ShowAlbum(c *fiber.Ctx) error {
 func NotFound(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusNotFound).SendFile("./public/404.html")
 
+}
+
+func EditAlbum(c *fiber.Ctx) error {
+	id := c.Params("id")
+
+	objectId, err := primitive.ObjectIDFromHex(id)
+
+	client := database.DB.Db
+	var album models.Album
+
+	coll := client.Database("album-list").Collection("albums")
+	err = coll.FindOne(context.TODO(), bson.M{"_id": objectId}).Decode(&album)
+	if err != nil {
+		return NotFound(c)
+	}
+
+	album.ID = id
+
+	return c.Render("edit", fiber.Map{
+		"Title":    "Edit Album",
+		"Subtitle": "Edit your album info",
+		"Album":    album,
+	})
+}
+
+func UpdateAlbum(c *fiber.Ctx) error {
+
+	id := c.Params("id")
+	// fmt.Println(id)
+
+	objectId, err := primitive.ObjectIDFromHex(id)
+
+	client := database.DB.Db
+	album := new(models.Album)
+
+	coll := client.Database("album-list").Collection("albums")
+	err = coll.FindOne(context.TODO(), bson.M{"_id": objectId}).Decode(&album)
+	if err != nil {
+		return NotFound(c)
+	}
+
+	// Parsing the request body
+	if err := c.BodyParser(album); err != nil {
+		return c.Status(fiber.StatusServiceUnavailable).SendString(err.Error())
+	}
+
+	data := bson.D{
+		{"$set", bson.D{{"name", album.Name}}},
+		{"$set", bson.D{{"group", album.Group}}},
+		{"$set", bson.D{{"year", album.Year}}},
+		{"$set", bson.D{{"songs", album.Songs}}},
+		{"$set", bson.D{{"img", album.Img}}},
+	}
+
+	result, err := coll.UpdateByID(context.TODO(), objectId, data)
+
+	_ = result
+
+	if err != nil {
+		panic(err)
+	}
+
+	// Write updated values to the database
+	// result := database.DB.Db.Model(&album).Where("id = ?", id).Updates(album)
+	// if result.Error != nil {
+	// 	return EditAlbum(c)
+	// }
+
+	return ShowAlbum(c)
 }

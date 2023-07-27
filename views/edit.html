@@ -1,13 +1,29 @@
 <div class="container">
     <form id="form-update-album" data-albumid="{{ .Album.ID }}">
+
+        <label for="question">
+            <span>Album</span>
+            <input type="text" name="name" value="{{ .Album.Name }}">
+        </label>
+
         <label for="question">
             <span>Group</span>
             <input type="text" name="group" value="{{ .Album.Group }}">
         </label>
 
-        <label for="answer">
-            <span>Album</span>
-            <input type="text" name="album" value="{{ .Album.Album }}">
+        <label for="question">
+            <span>Songs</span>
+            <input type="text" name="songs" value="{{ .Album.Songs }}">
+        </label>
+
+        <label for="question">
+            <span>Year</span>
+            <input type="text" name="year" value="{{ .Album.Year }}">
+        </label>
+
+        <label for="question">
+            <span>Img</span>
+            <input type="text" name="img" value="{{ .Album.Img }}">
         </label>
 
         <input type="submit" value="Update">
