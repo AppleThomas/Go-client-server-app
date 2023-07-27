@@ -300,3 +300,22 @@ form input[type="submit"] {
     background-color: #FFCCCC;
     border-radius: 5px;
 }
+
+.photo {
+    position: relative;
+    padding-bottom: 823px;
+    padding-left: 180px;
+}
+
+.content {
+    position: absolute;
+    bottom: 0;
+    height: 200px;
+    padding-top: 100px;
+}
+
+.album-buttons {
+    position: absolute;
+    padding-top: 1100px;
+    padding-left: 250px;
+}

@@ -4,6 +4,7 @@ import (
 	"album-list/database"
 	"album-list/models"
 	"context"
+	"strings"
 
 	"github.com/gofiber/fiber/v2"
 	"go.mongodb.org/mongo-driver/bson"
@@ -50,23 +51,15 @@ func AddAlbum(c *fiber.Ctx) error {
 	album := new(models.Album)
 
 	if err := c.BodyParser(album); err != nil {
-		// fmt.Println("Start here 1")
 		return NewAlbumView(c)
 	}
 
 	data := bson.D{{"name", album.Name}, {"group", album.Group}, {"year", album.Year}, {"songs", album.Songs}, {"img", album.Img}}
 
 	_, err := coll.InsertOne(context.TODO(), data)
-	// check for errors in the insertion
 	if err != nil {
 		panic(err)
 	}
-
-	// fmt.Println(album.Name)
-	// fmt.Println(album.Group)
-	// fmt.Println(album.Year)
-	// fmt.Println(album.Songs)
-	// fmt.Println(album.Img)
 
 	return ListAlbums(c)
 }
@@ -76,4 +69,47 @@ func NewAlbumView(c *fiber.Ctx) error {
 		"Title":    "New Album",
 		"Subtitle": "Add your nifty new album from your collection",
 	})
+}
+
+func ShowAlbum(c *fiber.Ctx) error {
+	// album := models.Album{}
+	id := c.Params("id")
+	// id_url := c.OriginalURL()
+	// fmt.Println("first")
+	// fmt.Println(id_url)
+	// id := id_url[len(id_url)-24:]
+	// fmt.Println(id)
+
+	objectId, err := primitive.ObjectIDFromHex(id)
+
+	// fmt.Println(objectId)
+	// fmt.Println(c.OriginalURL())
+
+	// if err != nil {
+	// 	panic(err)
+	// }
+
+	client := database.DB.Db
+	var album models.Album
+
+	coll := client.Database("album-list").Collection("albums")
+	err = coll.FindOne(context.TODO(), bson.M{"_id": objectId}).Decode(&album)
+	if err != nil {
+		return NotFound(c)
+	}
+
+	songs := album.Songs
+	multi := strings.Split(songs, ",")
+	// fmt.Println(reflect.TypeOf(multi))
+	album.SongsMulti = multi
+
+	return c.Render("show", fiber.Map{
+		"Title": album.Name,
+		"Album": album,
+	})
+}
+
+func NotFound(c *fiber.Ctx) error {
+	return c.Status(fiber.StatusNotFound).SendFile("./public/404.html")
+
 }
