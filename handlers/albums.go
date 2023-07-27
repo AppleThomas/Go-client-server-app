@@ -93,7 +93,7 @@ func ShowAlbum(c *fiber.Ctx) error {
 	album.ID = id
 
 	return c.Render("show", fiber.Map{
-		"Title": album.Name,
+		"Title": album.Group + " - " + album.Name,
 		"Album": album,
 	})
 }
