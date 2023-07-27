@@ -4,6 +4,7 @@ import (
 	"album-list/database"
 	"album-list/models"
 	"context"
+	"fmt"
 	"strings"
 
 	"github.com/gofiber/fiber/v2"
@@ -159,14 +160,31 @@ func UpdateAlbum(c *fiber.Ctx) error {
 	_ = result
 
 	if err != nil {
-		panic(err)
+		return EditAlbum(c)
 	}
 
-	// Write updated values to the database
-	// result := database.DB.Db.Model(&album).Where("id = ?", id).Updates(album)
-	// if result.Error != nil {
-	// 	return EditAlbum(c)
-	// }
-
 	return ShowAlbum(c)
+}
+
+func DeleteAlbum(c *fiber.Ctx) error {
+	id := c.Params("id")
+
+	objectId, err := primitive.ObjectIDFromHex(id)
+
+	client := database.DB.Db
+
+	coll := client.Database("album-list").Collection("albums")
+
+	filter := bson.D{
+		{"_id", objectId},
+	}
+
+	result, err := coll.DeleteOne(context.TODO(), filter)
+
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("Number of documents deleted:", result.DeletedCount)
+
+	return ListAlbums(c)
 }
