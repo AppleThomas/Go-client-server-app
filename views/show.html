@@ -1,27 +1,23 @@
-<div class="container flex">
+<div class="container">
     {{if .Album}}
 
     <div class="photo">
         <img src={{.Album.Img}} alt="" width="300" height="300" >
-        
-    </div>
-    <div class="content">
+        <p>------------------------------</p>
         <p>{{ .Album.Group }} - {{ .Album.Name }}, {{.Album.Year}}</p>
-        <p>------------------------------------------------------------------</p>
+        <p>------------------------------</p>
         {{ range .Album.SongsMulti }}
             <p>{{.}}</p>  
         {{ end }}
-    </div>
-    <!-- <div class="content">
-        <p>{{.Album.Songs}}</p>
         
-    </div> -->
-
-
-    <div class="album-buttons">
-        <a href="/album/{{.Album.ID}}/edit" class="btn-secondary">Edit</a>
-        <button id="delete-button" data-albumid="{{.Album.ID}}" class="btn-danger">Delete</button>
+        <div class="album-buttons">
+            <a href="/album/{{.Album.ID}}/edit" class="btn-secondary">Edit</a>
+            <button id="delete-button" data-albumid="{{.Album.ID}}" class="btn-danger">Delete</button>
+        </div>
     </div>
+
+
+    
     {{end}}
 </div>
 

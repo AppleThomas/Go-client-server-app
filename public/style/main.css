@@ -181,14 +181,14 @@ form input[type="submit"] {
     font-weight: 700;
     text-decoration: none;
     border-radius: 10px;
-    background-color: rgb(255, 23, 68);
+    background-color: #ffd076;
     box-shadow: rgb(255, 255, 255) 0px 0px 0px 0px, rgba(15, 23, 42, 0.1) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.1) 0px 4px 6px -4px;
     color: white;
     border: 1px solid rgba(15,23,42,.1);
 }
 
 .btn-danger:hover {
-    background-color: rgba(255, 23, 68, 0.8);
+    background-color: #ffe176;
 
 }
     
@@ -256,18 +256,55 @@ form input[type="submit"] {
     justify-content: space-between;
 }
 
+.album-item .answer-toggle {
+    flex-basis: 10%;
+    align-self: flex-start;
+    background-color: #f4e6f3;
+    border: 1px solid #f4b3ef;
+    padding: 5px 10px;
+    color: #bd65b6;
+    font-size: 10px;
+    font-weight: 700;
+    text-decoration: none;
+    text-transform: uppercase;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
 .album-item .question {
     margin-bottom:10px;
+}
+
+.album-item .answer {
+    color: #bd65b6;
+    font-style: italic;
 }
 
 .album-item .fibre-content {
     font-style: italic;
 }
 
+.no-facts,
+.add-more {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 30px;
+}
+
+.all-errors {
+    margin-bottom: 30px;
+    padding: 10px 20px;
+    color: #A65252;
+    line-height: 20px;
+    background-color: #FFCCCC;
+    border-radius: 5px;
+}
+
 .photo {
     position: relative;
-    padding-bottom: 823px;
     padding-left: 180px;
+    
 }
 
 .content {
@@ -275,10 +312,11 @@ form input[type="submit"] {
     bottom: 0;
     height: 200px;
     padding-top: 100px;
+    
 }
 
 .album-buttons {
-    position: absolute;
-    padding-top: 1100px;
-    padding-left: 250px;
+    /* position: absolute; */
+    padding-top: 20%;
+    padding-left: 65%;
 }
