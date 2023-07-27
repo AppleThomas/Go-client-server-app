@@ -2,6 +2,7 @@ package main
 
 import (
 	"album-list/database"
+	"album-list/handlers"
 	"net/http"
 
 	"github.com/gofiber/fiber/v2"
@@ -10,26 +11,24 @@ import (
 
 func main() {
 
+	// go work use .
 	database.ConnectDb()
 
 	// client := database.DB.Db
 
 	// coll := client.Database("album-list").Collection("albums")
-	// name := "We Play"
-	// var result bson.M
-	// err := coll.FindOne(context.TODO(), bson.D{{"name", name}}).Decode(&result)
-	// if err == mongo.ErrNoDocuments {
-	// 	fmt.Printf("No document was found with the name %s\n", name)
-	// 	return
-	// }
-	// if err != nil {
+	// // var result bson.M
+	// result, err := coll.Find(context.TODO(), bson.D{})
+
+	// var results []bson.M
+
+	// if err = result.All(context.TODO(), &results); err != nil {
 	// 	panic(err)
 	// }
-	// jsonData, err := json.MarshalIndent(result, "", "    ")
-	// if err != nil {
-	// 	panic(err)
+
+	// for _, result := range results {
+	// 	fmt.Println(result)
 	// }
-	// fmt.Printf("%s\n", jsonData)
 
 	engine := html.New("./views", ".html")
 
@@ -40,16 +39,23 @@ func main() {
 
 	setupRoutes(app)
 
+	app.Static("/", "./public")
+
 	app.Listen(":3000")
 
 }
 
 func setupRoutes(app *fiber.App) {
-	app.Get("/", func(c *fiber.Ctx) error {
-		return c.SendString("stan Weeekly for clear skin or else!")
-	})
+	// app.Get("/", func(c *fiber.Ctx) error {
+	// 	return c.SendString("stan Weeekly for clear skin or else nerd!")
+	// })
+
+	app.Get("/", handlers.ListAlbums)
 
 	app.Get("/health", func(c *fiber.Ctx) error {
 		return c.JSON(http.StatusOK)
 	})
+
+	app.Get("/album", handlers.NewAlbumView)
+	app.Post("/album", handlers.AddAlbum)
 }

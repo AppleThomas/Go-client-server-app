@@ -1,0 +1,15 @@
+<div class="container">
+    <form id="form-update-album" data-albumid="{{ .Album.ID }}">
+        <label for="question">
+            <span>Group</span>
+            <input type="text" name="group" value="{{ .Album.Group }}">
+        </label>
+
+        <label for="answer">
+            <span>Album</span>
+            <input type="text" name="album" value="{{ .Album.Album }}">
+        </label>
+
+        <input type="submit" value="Update">
+    </form>
+</div>

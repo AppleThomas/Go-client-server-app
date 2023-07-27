@@ -1,0 +1,21 @@
+<div class="container">
+    {{if .Albums}}
+        {{ range .Albums }}
+        <a href="/album/{{ .ID }}">
+            <div class="album-item">
+                <div class="question-wrapper">
+                    <p class="question">{{.Group}} - {{ .Name }}</p>
+                    <div class="actions">
+                        <img src={{.Img}} alt="" width="50" height="50">
+                    </div>
+                </div>
+            </div>
+        </a>
+        {{ end }}
+    {{else}}
+        <div class="no-facts">
+            <p>No albums yet.</p>
+            <p><a href="/album">Add now</a></p>
+        </div>
+    {{end}}
+</div>

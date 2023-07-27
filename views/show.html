@@ -1,0 +1,15 @@
+<div class="container flex">
+    {{if .Album}}
+
+    <div class="content">
+        <p>{{ .Album.Group }} - {{ .Album.Album }}</p>
+        
+    </div>
+
+    <div class="actions">
+        <a href="/album/{{.Album.ID}}/edit" class="btn-secondary">Edit</a>
+        <button id="delete-button" data-albumid="{{.Album.ID}}" class="btn-danger">Delete</button>
+    </div>
+    {{end}}
+</div>
+

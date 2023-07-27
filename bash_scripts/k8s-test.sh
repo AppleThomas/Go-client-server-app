@@ -4,7 +4,7 @@ kubectl port-forward $appPod 45287:3000 &
 
 sleep 10
 
-curl -v localhost:45287
+curl -v localhost:45287/health
 
 echo -e "\ndone"
 
