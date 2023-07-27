@@ -1,2 +1,3 @@
 # to change language of repo from html to Go
-    *.html linguist-language=Go
+    *.html linguist-detectable=false
+    *.css linguist-detectable=false
