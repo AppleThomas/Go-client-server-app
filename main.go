@@ -11,24 +11,7 @@ import (
 
 func main() {
 
-	// go work use .
 	database.ConnectDb()
-
-	// client := database.DB.Db
-
-	// coll := client.Database("album-list").Collection("albums")
-	// // var result bson.M
-	// result, err := coll.Find(context.TODO(), bson.D{})
-
-	// var results []bson.M
-
-	// if err = result.All(context.TODO(), &results); err != nil {
-	// 	panic(err)
-	// }
-
-	// for _, result := range results {
-	// 	fmt.Println(result)
-	// }
 
 	engine := html.New("./views", ".html")
 
@@ -46,9 +29,6 @@ func main() {
 }
 
 func setupRoutes(app *fiber.App) {
-	// app.Get("/", func(c *fiber.Ctx) error {
-	// 	return c.SendString("stan Weeekly for clear skin or else nerd!")
-	// })
 
 	app.Get("/", handlers.ListAlbums)
 
